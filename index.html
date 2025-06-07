@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ZERA Liquid Template Customizer - Create beautiful Shopify sections with zero coding required">
+    <meta name="keywords" content="shopify, liquid, template, customizer, sections, ecommerce, zera">
+    <meta name="author" content="ZERA Team">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="ZERA Liquid Template Customizer">
+    <meta property="og:description" content="Create stunning Shopify sections with visual customization tools">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kkuyemekhanepuanla.com.tr">
+    <meta property="og:image" content="https://zera.com/assets/og-image.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ZERA Liquid Template Customizer">
+    <meta name="twitter:description" content="Create stunning Shopify sections with visual customization tools">
+    <meta name="twitter:image" content="https://zera.com/assets/twitter-image.jpg">
+    
+    <title>ZERA Liquid Template Customizer</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+    
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="src/styles/main.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='32' font-size='32'>🎨</text></svg>">
+    <link rel="icon" type="image/png" sizes="16x16" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='16' font-size='16'>🎨</text></svg>">    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+</head>
+<body>
+    <!-- ===== MAIN APP CONTAINER ===== -->
+    <div class="app-container" id="appContainer">
+        
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <!-- Sidebar Header -->
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">
+                    <i class="fas fa-magic"></i>
+                    ZERA Customizer
+                </h1>
+                <p class="sidebar-subtitle">
+                    Create beautiful Shopify sections with zero coding
+                </p>
+            </div>
+            
+            <!-- Sidebar Content -->
+            <div class="sidebar-content" id="sidebarContent">
+                
+                <!-- Template Selector -->
+                <div class="template-selector">
+                    <label for="templateSelector" class="template-selector-label">
+                        <i class="fas fa-layer-group"></i>
+                        Choose Template
+                    </label>
+                    <select id="templateSelector" class="template-dropdown form-control select-input">
+                        <option value="">Select a template...</option>
+                        <option value="how-to-use">How to Use Section</option>
+                        <option value="hero-banner">Hero Banner</option>
+                        <option value="features-grid">Features Grid</option>
+                        <option value="testimonials">Testimonials</option>
+                        <option value="pricing-table">Pricing Table</option>
+                        <option value="faq-section">FAQ Section</option>
+                        <option value="team-members">Team Members</option>
+                        <option value="contact-form">Contact Form</option>
+                        <option value="image-slider">Before/After Image Slider</option> <!-- ⬅️ BU SATIRI EKLE -->
+
+                    </select>
+                </div>
+                
+                <!-- Loading State -->
+                <div id="loadingState" class="loading-state" style="display: none;">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <p>Loading template...</p>
+                </div>
+                
+                <!-- Form Container - Will be populated dynamically -->
+                <div id="formContainer" class="form-container">
+                    <!-- Forms will be generated here by FormBuilder -->
+                </div>
+                
+                <!-- Template Not Found -->
+                <div id="templateNotFound" class="template-not-found" style="display: none;">
+                    <div class="not-found-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Template Not Found</h3>
+                    <p>The selected template could not be loaded. Please try selecting a different template.</p>
+                    <button class="btn btn-primary retry-template-btn" onclick="location.reload()">
+                        <i class="fas fa-refresh"></i>
+                        Reload Page
+                    </button>
+                </div>
+                
+            </div>
+        </aside>
+        
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content" id="mainContent">
+            
+            <!-- Toolbar -->
+            <header class="toolbar" id="toolbar">
+                <div class="toolbar-left">
+                    <h2 class="toolbar-title" id="toolbarTitle">
+                        <i class="fas fa-eye"></i>
+                        Preview
+                    </h2>
+                    
+                    <!-- Preview Mode Buttons -->
+                    <div class="preview-mode-buttons">
+                        <button class="preview-mode-btn active" data-render-mode="preview" title="Live Preview">
+                            <i class="fas fa-eye"></i>
+                            Preview
+                        </button>
+                        <button class="preview-mode-btn" data-render-mode="code" title="View Code">
+                            <i class="fas fa-code"></i>
+                            Code
+                        </button>
+                        <button class="preview-mode-btn" data-render-mode="export" title="Export for Shopify">
+                            <i class="fas fa-download"></i>
+                            Export
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="toolbar-right">
+                    <!-- Responsive Controls -->
+                    <div class="responsive-controls">
+                        <button class="responsive-btn active" data-preview-mode="desktop" title="Desktop View">
+                            <i class="fas fa-desktop"></i>
+                        </button>
+                        <button class="responsive-btn" data-preview-mode="tablet" title="Tablet View">
+                            <i class="fas fa-tablet-alt"></i>
+                        </button>
+                        <button class="responsive-btn" data-preview-mode="mobile" title="Mobile View">
+                            <i class="fas fa-mobile-alt"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Additional Controls -->
+                    <div class="toolbar-actions">
+                        <button class="btn btn-secondary" id="refreshPreview" title="Refresh Preview">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button class="btn btn-secondary" id="resetForm" title="Reset All Settings">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                        <button class="btn btn-primary" id="saveTemplate" title="Save Template">
+                            <i class="fas fa-save"></i>
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Preview Area -->
+            <section class="preview-area" id="previewArea">
+                <div class="preview-canvas" id="previewCanvas">
+                    <!-- Initial Placeholder -->
+                    <div class="preview-placeholder" id="previewPlaceholder">
+                        <div class="placeholder-content">
+                            <i class="fas fa-layer-group placeholder-icon"></i>
+                            <h3>Select a Template to Get Started</h3>
+                            <p>Choose a template from the sidebar to begin customizing your Shopify section</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+        
+    </div>
+    
+    <!-- ===== LOADING OVERLAY ===== -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner-large">
+                <i class="fas fa-cog fa-spin"></i>
+            </div>
+            <h3>Processing...</h3>
+            <p id="loadingMessage">Initializing template customizer...</p>
+        </div>
+    </div>
+    
+    <!-- ===== ERROR MODAL ===== -->
+    <div id="errorModal" class="error-modal" style="display: none;">
+        <div class="error-modal-backdrop"></div>
+        <div class="error-modal-content">
+            <div class="error-modal-header">
+                <h3>
+                    <i class="fas fa-exclamation-circle"></i>
+                    Error
+                </h3>
+                <button class="error-modal-close" id="closeErrorModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="error-modal-body">
+                <p id="errorMessage">An unexpected error occurred.</p>
+                <div class="error-details" id="errorDetails" style="display: none;">
+                    <h4>Technical Details:</h4>
+                    <pre id="errorStack"></pre>
+                </div>
+            </div>
+            <div class="error-modal-footer">
+                <button class="btn btn-secondary" id="toggleErrorDetails">
+                    <i class="fas fa-info-circle"></i>
+                    Show Details
+                </button>
+                <button class="btn btn-primary" id="closeErrorModalBtn">
+                    <i class="fas fa-check"></i>
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ===== SUCCESS TOAST ===== -->
+    <div id="successToast" class="success-toast" style="display: none;">
+        <div class="toast-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="successMessage">Action completed successfully!</span>
+        </div>
+        <button class="toast-close" id="closeSuccessToast">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <!-- ===== KEYBOARD SHORTCUTS HELP ===== -->
+    <div id="keyboardHelp" class="keyboard-help" style="display: none;">
+        <div class="keyboard-help-backdrop"></div>
+        <div class="keyboard-help-content">
+            <div class="keyboard-help-header">
+                <h3>
+                    <i class="fas fa-keyboard"></i>
+                    Keyboard Shortcuts
+                </h3>
+                <button class="keyboard-help-close" id="closeKeyboardHelp">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="keyboard-help-body">
+                <div class="shortcut-group">
+                    <h4>Navigation</h4>
+                    <div class="shortcut-item">
+                        <kbd>Ctrl</kbd> + <kbd>1</kbd>
+                        <span>Switch to Preview mode</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Ctrl</kbd> + <kbd>2</kbd>
+                        <span>Switch to Code mode</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Ctrl</kbd> + <kbd>3</kbd>
+                        <span>Switch to Export mode</span>
+                    </div>
+                </div>
+                <div class="shortcut-group">
+                    <h4>Preview</h4>
+                    <div class="shortcut-item">
+                        <kbd>D</kbd>
+                        <span>Desktop view</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>T</kbd>
+                        <span>Tablet view</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>M</kbd>
+                        <span>Mobile view</span>
+                    </div>
+                </div>
+                <div class="shortcut-group">
+                    <h4>Actions</h4>
+                    <div class="shortcut-item">
+                        <kbd>Ctrl</kbd> + <kbd>S</kbd>
+                        <span>Save template</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Ctrl</kbd> + <kbd>R</kbd>
+                        <span>Refresh preview</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Ctrl</kbd> + <kbd>Z</kbd>
+                        <span>Reset form</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>?</kbd>
+                        <span>Show this help</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ===== CORE SCRIPTS ===== -->
+    <!-- Template Engine -->
+    <script src="src/core/universal-engine.js"></script>
+    
+    <!-- Form Builder -->
+    <script src="src/core/form-builder.js"></script>
+    
+    <!-- Preview Renderer -->
+    <script src="src/core/preview-renderer.js"></script>
+    
+    <!-- Main Application -->
+    <script src="src/core/app.js"></script>
+    
+    <!-- Application Initialization -->
+    <script>
+        // Global error handling
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            showError('Application Error', e.error.message, e.error.stack);
+        });
+        
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Unhandled promise rejection:', e.reason);
+            showError('Promise Rejection', e.reason.message || e.reason, e.reason.stack);
+        });
+        
+        // Initialize application when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 ZERA Liquid Template Customizer starting...');
+            
+            try {
+                // Show loading overlay
+                showLoading('Initializing application...');
+                
+                // Initialize core components
+                const universalEngine = new UniversalEngine();
+                const formBuilder = new FormBuilder();
+                const previewRenderer = new PreviewRenderer(universalEngine);
+                
+                // Initialize application
+                const app = new App(universalEngine, formBuilder, previewRenderer);
+                app.init().then(() => {
+                    hideLoading();
+                    showSuccess('Application initialized successfully!');
+                    console.log('✅ ZERA Liquid Template Customizer ready!');
+                }).catch(error => {
+                    hideLoading();
+                    showError('Initialization Error', 'Failed to initialize application', error.stack);
+                    console.error('❌ Failed to initialize application:', error);
+                });
+                
+            } catch (error) {
+                hideLoading();
+                showError('Critical Error', 'Failed to start application', error.stack);
+                console.error('❌ Critical error during initialization:', error);
+            }
+        });
+        
+        // Utility functions for UI feedback
+        function showLoading(message) {
+            const overlay = document.getElementById('loadingOverlay');
+            const messageEl = document.getElementById('loadingMessage');
+            messageEl.textContent = message;
+            overlay.style.display = 'flex';
+        }
+        
+        function hideLoading() {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.style.display = 'none';
+        }
+        
+        function showError(title, message, stack) {
+            const modal = document.getElementById('errorModal');
+            const messageEl = document.getElementById('errorMessage');
+            const stackEl = document.getElementById('errorStack');
+            
+            messageEl.textContent = message;
+            if (stack) {
+                stackEl.textContent = stack;
+            }
+            
+            modal.style.display = 'flex';
+        }
+        
+        function showSuccess(message) {
+            const toast = document.getElementById('successToast');
+            const messageEl = document.getElementById('successMessage');
+            
+            messageEl.textContent = message;
+            toast.style.display = 'flex';
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+1,2,3 for mode switching
+            if (e.ctrlKey && e.key >= '1' && e.key <= '3') {
+                e.preventDefault();
+                const modes = ['preview', 'code', 'export'];
+                const mode = modes[parseInt(e.key) - 1];
+                document.querySelector(`[data-render-mode="${mode}"]`)?.click();
+            }
+            
+            // D, T, M for responsive modes
+            if (!e.ctrlKey && !e.altKey && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                switch(e.key.toLowerCase()) {
+                    case 'd':
+                        e.preventDefault();
+                        document.querySelector('[data-preview-mode="desktop"]')?.click();
+                        break;
+                    case 't':
+                        e.preventDefault();
+                        document.querySelector('[data-preview-mode="tablet"]')?.click();
+                        break;
+                    case 'm':
+                        e.preventDefault();
+                        document.querySelector('[data-preview-mode="mobile"]')?.click();
+                        break;
+                    case '?':
+                        e.preventDefault();
+                        document.getElementById('keyboardHelp').style.display = 'flex';
+                        break;
+                }
+            }
+            
+            // Ctrl+S for save
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                document.getElementById('saveTemplate')?.click();
+            }
+            
+            // Ctrl+R for refresh (prevent default browser refresh)
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                document.getElementById('refreshPreview')?.click();
+            }
+            
+            // Ctrl+Z for reset
+            if (e.ctrlKey && e.key === 'z') {
+                e.preventDefault();
+                document.getElementById('resetForm')?.click();
+            }
+        });
+        
+        // Modal close handlers
+        document.getElementById('closeErrorModal')?.addEventListener('click', () => {
+            document.getElementById('errorModal').style.display = 'none';
+        });
+        
+        document.getElementById('closeErrorModalBtn')?.addEventListener('click', () => {
+            document.getElementById('errorModal').style.display = 'none';
+        });
+        
+        document.getElementById('toggleErrorDetails')?.addEventListener('click', (e) => {
+            const details = document.getElementById('errorDetails');
+            const btn = e.target;
+            if (details.style.display === 'none') {
+                details.style.display = 'block';
+                btn.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Details';
+            } else {
+                details.style.display = 'none';
+                btn.innerHTML = '<i class="fas fa-info-circle"></i> Show Details';
+            }
+        });
+        
+        document.getElementById('closeSuccessToast')?.addEventListener('click', () => {
+            document.getElementById('successToast').style.display = 'none';
+        });
+        
+        document.getElementById('closeKeyboardHelp')?.addEventListener('click', () => {
+            document.getElementById('keyboardHelp').style.display = 'none';
+        });
+        
+        // Close modals on backdrop click
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('error-modal-backdrop')) {
+                document.getElementById('errorModal').style.display = 'none';
+            }
+            if (e.target.classList.contains('keyboard-help-backdrop')) {
+                document.getElementById('keyboardHelp').style.display = 'none';
+            }
+        });
+    </script>
+    
+    <!-- Additional Styles for Modals and Components -->
+    <style>
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: var(--z-modal);
+        }
+        .preview-wrapper {
+    transition: all 0.3s ease;
+}
+
+.preview-wrapper.preview-mobile {
+    transform: scale(0.8);
+    transform-origin: center top;
+}
+
+.preview-wrapper.preview-tablet {
+    transform: scale(0.9);
+    transform-origin: center top;
+}
+
+.device-frame {
+    margin: 0 auto;
+    position: relative;
+}
+
+.device-mobile {
+    box-shadow: 0 0 0 8px #333, 0 8px 30px rgba(0,0,0,0.3) !important;
+}
+
+.device-tablet {
+    box-shadow: 0 0 0 4px #666, 0 6px 25px rgba(0,0,0,0.2) !important;
+}
+
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+        
+        .loading-spinner-large {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .loading-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray-500);
+        }
+        
+        .loading-spinner {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        /* Error Modal */
+        .error-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: var(--z-modal);
+        }
+        
+        .error-modal-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .error-modal-content {
+            background: white;
+            border-radius: var(--radius-lg);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .error-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .error-modal-header h3 {
+            margin: 0;
+            color: var(--error);
+        }
+        
+        .error-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray-500);
+            cursor: pointer;
+        }
+        
+        .error-modal-body {
+            padding: 1.5rem;
+        }
+        
+        .error-details {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+        }
+        
+        .error-details pre {
+            font-size: 0.75rem;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        
+        .error-modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding: 1.5rem;
+            border-top: 1px solid var(--gray-200);
+        }
+        
+        /* Success Toast */
+        .success-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: var(--z-toast);
+            box-shadow: var(--shadow-lg);
+            animation: slideInRight 0.3s ease;
+        }
+
+    .form-group select {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 4 5"><path fill="%23666" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>') !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    background-size: 12px !important;
+    padding-right: 40px !important;
+}
+
+/* Form Section Headers - Better Click Area */
+.form-section-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 12px 15px !important;
+    background: #f8f9fa !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    margin-bottom: 10px !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+}
+
+.form-section-header:hover {
+    background: #e9ecef !important;
+}
+
+.form-section-header.active {
+    background: #e9ecef !important;
+    border-color: #adb5bd !important;
+}
+
+.form-section-title {
+    margin: 0 !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #495057 !important;
+    pointer-events: none !important;
+}
+
+.form-section-arrow {
+    font-size: 0.8rem !important;
+    color: #6c757d !important;
+    transition: transform 0.05s ease !important;
+    pointer-events: none !important;
+}
+
+.form-section-content {
+    padding: 0 5px ;
+    margin-bottom: 20px;
+}
+
+
+/* Range Input Improvements */
+.range-input-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.range-value {
+    min-width: 60px !important;
+    text-align: right !important;
+    font-weight: 600 !important;
+    color: #495057 !important;
+}
+
+/* Color Input Improvements */
+.color-input-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.color-display {
+    font-weight: 600 !important;
+    color: #495057 !important;
+    font-family: monospace !important;
+}
+        
+        .toast-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+        
+        .toast-close:hover {
+            opacity: 1;
+        }
+        
+        /* Template Not Found */
+        .template-not-found {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--gray-500);
+        }
+        
+        .not-found-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--warning);
+        }
+        
+        .template-not-found h3 {
+            margin-bottom: 1rem;
+            color: var(--gray-700);
+        }
+        
+        .template-not-found p {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        /* Keyboard Help */
+        .keyboard-help {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: var(--z-modal);
+        }
+        
+        .keyboard-help-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .keyboard-help-content {
+            background: white;
+            border-radius: var(--radius-lg);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .keyboard-help-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .keyboard-help-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray-500);
+            cursor: pointer;
+        }
+        
+        .keyboard-help-body {
+            padding: 1.5rem;
+        }
+        
+        .shortcut-group {
+            margin-bottom: 2rem;
+        }
+        
+        .shortcut-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .shortcut-group h4 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+        
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+        
+        .shortcut-item kbd {
+            background: var(--gray-100);
+            border: 1px solid var(--gray-300);
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+            margin: 0 0.25rem;
+        }
+        
+        .placeholder-content {
+            text-align: center;
+            color: var(--gray-500);
+        }
+        
+        .placeholder-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--gray-400);
+        }
+        
+        .placeholder-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--gray-700);
+        }
+        
+        .toolbar-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .toolbar-actions {
+                gap: 0.25rem;
+            }
+            
+            .toolbar-actions .btn {
+                padding: 0.5rem;
+                font-size: 0.75rem;
+            }
+            
+            .toolbar-actions .btn span {
+                display: none;
+            }
+             .preview-wrapper.preview-tablet,
+            .preview-wrapper.preview-mobile {
+                transform: scale(0.7);
+            }
+            
+            .device-frame {
+                max-width: 90vw;
+            }
+        }
+    </style>
+</body>
+</html>

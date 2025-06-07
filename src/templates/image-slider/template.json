@@ -1,0 +1,280 @@
+{
+  "meta": {
+    "name": "Before/After Image Slider",
+    "type": "image-slider",
+    "version": "1.0.0",
+    "description": "Interactive before/after image comparison slider with drag functionality"
+  },
+  
+  "liquid": {
+    "html": "<div class=\"image-slider-section\" style=\"background: {{background_color}}; padding: {{section_padding_top}}px {{section_padding_horizontal}}px {{section_padding_bottom}}px;\">\n  <div class=\"slider-container\" style=\"max-width: {{container_max_width}}px; margin: 0 auto; text-align: center;\">\n    \n    <!-- Section Header -->\n    <div class=\"slider-header\" style=\"margin-bottom: {{header_margin_bottom}}px;\">\n      <h2 class=\"slider-title\" style=\"color: {{title_color}}; font-size: {{title_font_size}}rem; font-weight: {{title_font_weight}}; margin-bottom: {{title_margin_bottom}}px;\">{{slider_title}}</h2>\n      <p class=\"slider-description\" style=\"color: {{description_color}}; font-size: {{description_font_size}}rem; line-height: {{description_line_height}};\">{{slider_description}}</p>\n    </div>\n    \n    <!-- Before/After Slider -->\n    <div class=\"before-after-container\" style=\"max-width: {{slider_max_width}}px; margin: 0 auto; border-radius: {{slider_border_radius}}px; overflow: hidden; box-shadow: {{slider_shadow}};\">\n      \n      <div class=\"image-container\">\n        <!-- After Image (Background) -->\n        <img class=\"image-after slider-image\" src=\"{{after_image}}\" alt=\"{{after_image_alt}}\" />\n        \n        <!-- Before Image (Overlay) -->\n        <img class=\"image-before slider-image\" src=\"{{before_image}}\" alt=\"{{before_image_alt}}\" />\n      </div>\n      \n      <!-- Range Slider (Invisible) -->\n      <input type=\"range\" min=\"0\" max=\"100\" value=\"50\" aria-label=\"Percentage of before photo shown\" class=\"slider\" />\n      \n      <!-- Visual Slider Line -->\n      <div class=\"slider-line\" aria-hidden=\"true\"></div>\n      \n      <!-- Slider Button/Handle -->\n      <div class=\"slider-button\" aria-hidden=\"true\">\n        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{{handle_icon_size}}\" height=\"{{handle_icon_size}}\" fill=\"currentColor\" viewBox=\"0 0 256 256\">\n          <rect width=\"256\" height=\"256\" fill=\"none\"></rect>\n          <line x1=\"128\" y1=\"40\" x2=\"128\" y2=\"216\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"16\"></line>\n          <line x1=\"96\" y1=\"128\" x2=\"16\" y2=\"128\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"16\"></line>\n          <polyline points=\"48 160 16 128 48 96\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"16\"></polyline>\n          <line x1=\"160\" y1=\"128\" x2=\"240\" y2=\"128\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"16\"></line>\n          <polyline points=\"208 96 240 128 208 160\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"16\"></polyline>\n        </svg>\n      </div>\n      \n    </div>\n    \n  </div>\n</div>",
+    
+    "css": ".image-slider-section {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  overflow: hidden;\n}\n\n*,\n*::after,\n*::before {\n  box-sizing: border-box;\n}\n\n.before-after-container {\n  display: grid;\n  place-content: center;\n  position: relative;\n  overflow: hidden;\n  --position: 50%;\n}\n\n.image-container {\n  max-width: {{slider_max_width}}px;\n  max-height: 90vh;\n  aspect-ratio: 3/2;\n}\n\n.slider-image {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  object-position: center;\n  display: block;\n}\n\n.image-before {\n  position: absolute;\n  inset: 0;\n  width: var(--position);\n}\n\n.slider {\n  position: absolute;\n  inset: 0;\n  cursor: pointer;\n  opacity: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 2;\n}\n\n.slider:focus-visible ~ .slider-button {\n  outline: 3px solid {{handle_button_border_color}};\n  outline-offset: 3px;\n}\n\n.slider-line {\n  position: absolute;\n  inset: 0;\n  width: {{handle_width}}px;\n  height: 100%;\n  background-color: {{handle_color}};\n  left: var(--position);\n  transform: translateX(-50%);\n  pointer-events: none;\n  box-shadow: 0 0 0 1px rgba(0,0,0,0.1);\n}\n\n.slider-button {\n  position: absolute;\n  background-color: {{handle_button_color}};\n  color: {{handle_icon_color}};\n  padding: {{handle_button_padding}}px;\n  border-radius: 50%;\n  display: grid;\n  place-items: center;\n  top: 50%;\n  left: var(--position);\n  transform: translate(-50%, -50%);\n  pointer-events: none;\n  box-shadow: {{handle_shadow}};\n  border: {{handle_button_border_width}}px solid {{handle_button_border_color}};\n  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);\n}\n\n.before-after-container:hover .slider-button {\n  transform: translate(-50%, -50%) scale(1.1);\n  box-shadow: 0 8px 25px rgba(0,0,0,0.2);\n}\n\n.slider-title {\n  animation: fadeInUp 0.6s ease 0.2s both;\n}\n\n.slider-description {\n  animation: fadeInUp 0.6s ease 0.4s both;\n}\n\n.before-after-container {\n  animation: fadeInUp 0.8s ease 0.6s both;\n}\n\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(30px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n/* Mobile Responsive */\n@media (max-width: 768px) {\n  .image-slider-section {\n    padding: 40px 15px !important;\n  }\n  \n  .slider-title {\n    font-size: calc({{title_font_size}}rem * 0.8) !important;\n  }\n  \n  .slider-description {\n    font-size: calc({{description_font_size}}rem * 0.9) !important;\n  }\n  \n  .image-container {\n    aspect-ratio: 1/1;\n  }\n  \n  .slider-button {\n    padding: calc({{handle_button_padding}}px * 0.8) !important;\n  }\n  \n  .slider-line {\n    width: 3px !important;\n  }\n}\n\n@media (max-width: 480px) {\n  .slider-title {\n    font-size: calc({{title_font_size}}rem * 0.7) !important;\n  }\n  \n  .image-container {\n    max-height: 70vh;\n  }\n}",
+    
+    "javascript": "document.addEventListener('DOMContentLoaded', function() {\n  const sliderSection = document.querySelector('.image-slider-section');\n  \n  if (sliderSection) {\n    console.log('✅ Image Slider initialized');\n    \n    const container = sliderSection.querySelector('.before-after-container');\n    const slider = sliderSection.querySelector('.slider');\n    \n    if (container && slider) {\n      // Main slider functionality\n      slider.addEventListener('input', function(e) {\n        container.style.setProperty('--position', `${e.target.value}%`);\n        console.log('🔄 Slider position:', e.target.value + '%');\n      });\n      \n      // Auto-demo animation on load\n      setTimeout(function() {\n        let position = 50;\n        let direction = 1;\n        let animationCount = 0;\n        \n        const demoAnimation = setInterval(function() {\n          position += direction * 2;\n          \n          if (position >= 80 || position <= 20) {\n            direction *= -1;\n            animationCount++;\n          }\n          \n          container.style.setProperty('--position', position + '%');\n          slider.value = position;\n          \n          if (animationCount >= 2) {\n            clearInterval(demoAnimation);\n            // Return to center\n            container.style.setProperty('--position', '50%');\n            slider.value = 50;\n            console.log('🎭 Demo animation completed');\n          }\n        }, 50);\n      }, 1000);\n      \n      // Add keyboard support enhancement\n      slider.addEventListener('keydown', function(e) {\n        const step = e.shiftKey ? 10 : 1;\n        const currentValue = parseInt(this.value);\n        \n        if (e.key === 'ArrowLeft') {\n          const newValue = Math.max(0, currentValue - step);\n          this.value = newValue;\n          container.style.setProperty('--position', newValue + '%');\n          e.preventDefault();\n        } else if (e.key === 'ArrowRight') {\n          const newValue = Math.min(100, currentValue + step);\n          this.value = newValue;\n          container.style.setProperty('--position', newValue + '%');\n          e.preventDefault();\n        }\n      });\n      \n      // Add smooth transition on slider release\n      slider.addEventListener('mouseup', function() {\n        container.style.transition = '--position 0.2s ease';\n        setTimeout(() => {\n          container.style.transition = '';\n        }, 200);\n      });\n      \n      // Touch support for mobile\n      slider.addEventListener('touchend', function() {\n        container.style.transition = '--position 0.2s ease';\n        setTimeout(() => {\n          container.style.transition = '';\n        }, 200);\n      });\n    }\n  }\n});"
+  },
+  
+  "customization": {
+    "content": {
+      "slider_title": {
+        "type": "text",
+        "label": "Section Title",
+        "placeholder": "Enter section title",
+        "default": "See The Amazing Transformation"
+      },
+      "slider_description": {
+        "type": "textarea",
+        "label": "Section Description",
+        "placeholder": "Enter description text",
+        "default": "Discover the incredible before and after results. Drag the slider to see the transformation for yourself."
+      },
+      "before_image": {
+        "type": "image",
+        "label": "Before Image",
+        "placeholder": "Upload before image",
+        "default": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      },
+      "before_image_alt": {
+        "type": "text",
+        "label": "Before Image Alt Text",
+        "placeholder": "Describe the before image",
+        "default": "Before transformation"
+      },
+      "after_image": {
+        "type": "image",
+        "label": "After Image",
+        "placeholder": "Upload after image",
+        "default": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&sat=-100"
+      },
+      "after_image_alt": {
+        "type": "text",
+        "label": "After Image Alt Text",
+        "placeholder": "Describe the after image",
+        "default": "After transformation"
+      }
+    },
+    
+    "styling": {
+      "background_color": {
+        "type": "color",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+      "title_color": {
+        "type": "color",
+        "label": "Title Color",
+        "default": "#2c3e50"
+      },
+      "description_color": {
+        "type": "color",
+        "label": "Description Color",
+        "default": "#7f8c8d"
+      },
+      "handle_color": {
+        "type": "color",
+        "label": "Handle Line Color",
+        "default": "#ffffff"
+      },
+      "handle_button_color": {
+        "type": "color",
+        "label": "Handle Button Color",
+        "default": "#ffffff"
+      },
+      "handle_button_border_color": {
+        "type": "color",
+        "label": "Handle Border Color",
+        "default": "#e74c3c"
+      },
+      "handle_icon_color": {
+        "type": "color",
+        "label": "Handle Icon Color",
+        "default": "#333333"
+      }
+    },
+    
+    "layout": {
+      "container_max_width": {
+        "type": "range",
+        "label": "Container Max Width",
+        "min": 800,
+        "max": 1400,
+        "unit": "px",
+        "default": 1200
+      },
+      "slider_max_width": {
+        "type": "range",
+        "label": "Slider Max Width",
+        "min": 400,
+        "max": 1000,
+        "unit": "px",
+        "default": 800
+      },
+      "section_padding_top": {
+        "type": "range",
+        "label": "Section Padding Top",
+        "min": 20,
+        "max": 150,
+        "unit": "px",
+        "default": 80
+      },
+      "section_padding_bottom": {
+        "type": "range",
+        "label": "Section Padding Bottom",
+        "min": 20,
+        "max": 150,
+        "unit": "px",
+        "default": 80
+      },
+      "section_padding_horizontal": {
+        "type": "range",
+        "label": "Section Padding Horizontal",
+        "min": 10,
+        "max": 50,
+        "unit": "px",
+        "default": 20
+      },
+      "header_margin_bottom": {
+        "type": "range",
+        "label": "Header Margin Bottom",
+        "min": 20,
+        "max": 80,
+        "unit": "px",
+        "default": 50
+      }
+    },
+    
+    "typography": {
+      "title_font_size": {
+        "type": "range",
+        "label": "Title Font Size",
+        "min": 1.5,
+        "max": 4,
+        "step": 0.1,
+        "unit": "rem",
+        "default": 2.5
+      },
+      "title_font_weight": {
+        "type": "range",
+        "label": "Title Font Weight",
+        "min": 300,
+        "max": 900,
+        "step": 100,
+        "default": 700
+      },
+      "title_margin_bottom": {
+        "type": "range",
+        "label": "Title Margin Bottom",
+        "min": 10,
+        "max": 40,
+        "unit": "px",
+        "default": 20
+      },
+      "description_font_size": {
+        "type": "range",
+        "label": "Description Font Size",
+        "min": 0.8,
+        "max": 1.5,
+        "step": 0.1,
+        "unit": "rem",
+        "default": 1.1
+      },
+      "description_line_height": {
+        "type": "range",
+        "label": "Description Line Height",
+        "min": 1.2,
+        "max": 2,
+        "step": 0.1,
+        "default": 1.6
+      }
+    },
+    
+    "effects": {
+      "slider_border_radius": {
+        "type": "range",
+        "label": "Slider Border Radius",
+        "min": 0,
+        "max": 30,
+        "unit": "px",
+        "default": 12
+      },
+      "slider_shadow": {
+        "type": "text",
+        "label": "Slider Shadow",
+        "placeholder": "CSS box-shadow value",
+        "default": "0 10px 30px rgba(0,0,0,0.1)"
+      },
+      "handle_width": {
+        "type": "range",
+        "label": "Handle Width",
+        "min": 2,
+        "max": 6,
+        "unit": "px",
+        "default": 3
+      },
+      "handle_button_padding": {
+        "type": "range",
+        "label": "Handle Button Padding",
+        "min": 8,
+        "max": 20,
+        "unit": "px",
+        "default": 12
+      },
+      "handle_button_border_width": {
+        "type": "range",
+        "label": "Handle Border Width",
+        "min": 1,
+        "max": 4,
+        "unit": "px",
+        "default": 2
+      },
+      "handle_icon_size": {
+        "type": "range",
+        "label": "Handle Icon Size",
+        "min": 20,
+        "max": 40,
+        "unit": "px",
+        "default": 30
+      },
+      "handle_shadow": {
+        "type": "text",
+        "label": "Handle Shadow",
+        "placeholder": "CSS box-shadow value",
+        "default": "0 4px 12px rgba(0,0,0,0.15)"
+      }
+    }
+  },
+  
+  "settings": {
+    "slider_title": "See The Amazing Transformation",
+    "slider_description": "Discover the incredible before and after results. Drag the slider to see the transformation for yourself.",
+    "before_image": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "before_image_alt": "Before transformation",
+    "after_image": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&sat=-100",
+    "after_image_alt": "After transformation",
+    "background_color": "#ffffff",
+    "title_color": "#2c3e50",
+    "description_color": "#7f8c8d",
+    "handle_color": "#ffffff",
+    "handle_button_color": "#ffffff",
+    "handle_button_border_color": "#e74c3c",
+    "handle_icon_color": "#333333",
+    "container_max_width": 1200,
+    "slider_max_width": 800,
+    "section_padding_top": 80,
+    "section_padding_bottom": 80,
+    "section_padding_horizontal": 20,
+    "header_margin_bottom": 50,
+    "title_font_size": 2.5,
+    "title_font_weight": 700,
+    "title_margin_bottom": 20,
+    "description_font_size": 1.1,
+    "description_line_height": 1.6,
+    "slider_border_radius": 12,
+    "slider_shadow": "0 10px 30px rgba(0,0,0,0.1)",
+    "handle_width": 3,
+    "handle_button_padding": 12,
+    "handle_button_border_width": 2,
+    "handle_icon_size": 30,
+    "handle_shadow": "0 4px 12px rgba(0,0,0,0.15)"
+  }
+}

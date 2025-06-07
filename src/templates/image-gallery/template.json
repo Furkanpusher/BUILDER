@@ -1,0 +1,39 @@
+ZERA/
+│
+├── templates/
+│   ├── how-to-use/
+│   │   ├── how-to-use.liquid        // Liquid template file
+│   │   └── how-to-use.json          // JSON data file for dynamic content
+│   │
+│   ├── testimonials/
+│   │   ├── testimonials.liquid       // Liquid template file
+│   │   └── testimonials.json         // JSON data file for dynamic content
+│   │
+│   ├── hero-banner/
+│   │   ├── hero-banner.liquid        // Liquid template file
+│   │   └── hero-banner.json          // JSON data file for dynamic content
+│   │
+│   └── image-gallery/
+│       ├── image-gallery.liquid      // Liquid template file
+│       └── image-gallery.json        // JSON data file for dynamic content
+│
+├── styles/
+│   ├── main.css                      // Main stylesheet for the project
+│   ├── how-to-use.css                // Specific styles for how-to-use template
+│   ├── testimonials.css               // Specific styles for testimonials template
+│   ├── hero-banner.css                // Specific styles for hero banner template
+│   └── image-gallery.css              // Specific styles for image gallery template
+│
+├── scripts/
+│   ├── main.js                       // Main JavaScript file for the project
+│   ├── how-to-use.js                 // Specific scripts for how-to-use template
+│   ├── testimonials.js                // Specific scripts for testimonials template
+│   ├── hero-banner.js                 // Specific scripts for hero banner template
+│   └── image-gallery.js               // Specific scripts for image gallery template
+│
+├── assets/
+│   ├── images/                       // Folder for images
+│   ├── fonts/                        // Folder for fonts
+│   └── icons/                        // Folder for icons
+│
+└── index.php                         // Main entry point for the application
